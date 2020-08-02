@@ -1,22 +1,26 @@
+
 <!DOCTYPE html>
 <html>
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-  <p>according to the arb.</p><br><br>
-  <p id="valr-askprice"></p><br>
+  <p>according to the arb.</p>
+  <p id="valr-askprice"></p>
 
 </body>
-<script>
-  
+<script type="text/javascript">
+
+
   $(document).ready(function() {
-    $.ajax({
-        url: "https://api.valr.com/v1/public/BTCZAR/marketsummary"
-    }).then(function(data) {
-       $('#greeting-id').append(data.askPrice);
-    });
+   jQuery.ajax('https://cors-anywhere.herokuapp.com/https://api.valr.com/v1/public/BTCZAR/marketsummary',{
+   type:'GET',contentType: 'application/json',async:false,dataType:'json',success:function(data){
+			$('#valr-askprice').append(data.askPrice)
+   		},error:function(){
+   			alert('error');
+		}
+	});
 });
-  
+
 </script>
 </html>
