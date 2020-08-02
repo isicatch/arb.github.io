@@ -4,20 +4,17 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-
-  <p id="greeting-id"></p><br>
-  <p id="content"></p>
-  
+  <p>according to the arb.</p><br><br>
+  <p id="valr-askprice"></p><br>
 
 </body>
 <script>
   
   $(document).ready(function() {
     $.ajax({
-        url: "http://rest-service.guides.spring.io/greeting"
+        url: "https://api.valr.com/v1/public/BTCZAR/marketsummary"
     }).then(function(data) {
-       $('#greeting-id').append(data.id);
-       $('#content').append(data.content);
+       $('#greeting-id').append(data.askPrice);
     });
 });
   
