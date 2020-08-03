@@ -96,7 +96,7 @@ function getCryptoBook(){
 	jQuery.ajax('https://cors-anywhere.herokuapp.com/https://api.crypto.com/v2/public/get-book?instrument_name=BTC_USDT&depth=1',{
 	   type:'GET',contentType: 'application/json',async:false,dataType:'json',success:function(d){
 	   		var dataArray = d.result.data;
-				$('#crypto-price').html(dataArray[0].asks[0][0]*1.0025);
+				$('#crypto-price').html(dataArray[0].bids[0][0]*1.0025);
 				cryptoPrice=dataArray[0].bids[0][0]*1.0025;
 	   		},error:function(){
 	   			alert('error');
