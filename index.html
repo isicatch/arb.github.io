@@ -5,21 +5,134 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-  <p>according to the arb.</p>
-  <p id="valr-askprice"></p>
+  <h3>according to the arb.</h3>
+
+<table>
+	<tr>
+		<td>Shyft Rate:<td>
+		<td><input id='shyftRate' type='number'></td>
+		<td><input id='calculate' type='button' value='Calculate'></td>
+	</tr>
+	<tr>
+		<td>valr price (R):</td>
+		<td id='valr-askprice'></td>
+	</tr>
+	<tr>
+		<td>crypto.com price ($):</td>
+		<td id='crypto-price'></td>
+	</tr>
+</table>
+<br>
+
+<table>
+
+	<tr>
+		<td>investment in $:</td>
+		<td id='investment-in-usd'></td>
+	</tr>
+	<tr>
+		<td>crypto.com value BTC:</td>
+		<td id='crypto-value-btc'></td>
+	</tr>
+
+	<tr>
+		<td>valr value BTC:</td>
+		<td id='valr-value-btc'></td>
+	</tr>
+
+	<tr>
+		<td>valr value ZAR:</td>
+		<td id='valr-value-zar'></td>
+	</tr>
+
+	<tr>
+		<td>value in bank ZAR:</td>
+		<td id='value-in-bank'></td>
+	</tr>
+
+	<tr>
+		<td>arb:</td>
+		<td id='arb'></td>
+	</tr>
+
+
+</table>
+
+
 
 </body>
 <script type="text/javascript">
 
+var valrPriceZAR;
+var valrPriceUSD;
+var cryptoPrice;
+var shyftRate;
+var investment = 125000;
 
-  $(document).ready(function() {
-   jQuery.ajax('https://cors-anywhere.herokuapp.com/https://api.valr.com/v1/public/BTCZAR/marketsummary',{
+var investmentUSD;
+var cryptoValueBTC;
+var valrValueBTC;
+var valrValueZAR;
+var valueInBankZAR;
+var arb;
+
+function getValrAskPrice(){
+jQuery.ajax('https://cors-anywhere.herokuapp.com/https://api.valr.com/v1/public/BTCZAR/marketsummary',{
    type:'GET',contentType: 'application/json',async:false,dataType:'json',success:function(data){
-			$('#valr-askprice').append(data.askPrice)
+			$('#valr-askprice').html(data.askPrice);
+			valrPriceZAR=data.askPrice;
    		},error:function(){
    			alert('error');
 		}
 	});
+}
+
+function getCryptoBook(){
+	jQuery.ajax('https://cors-anywhere.herokuapp.com/https://api.crypto.com/v2/public/get-book?instrument_name=BTC_USDT&depth=1',{
+	   type:'GET',contentType: 'application/json',async:false,dataType:'json',success:function(d){
+	   		var dataArray = d.result.data;
+				$('#crypto-price').html(dataArray[0].asks[0][0]*1.0025);
+				cryptoPrice=dataArray[0].bids[0][0]*1.0025;
+	   		},error:function(){
+	   			alert('error');
+			}
+	});
+
+}
+
+$(document).ready(function() {
+
+	getValrAskPrice();
+	getCryptoBook();
+
+	$('#shyftRate').val(0.0);
+
+	$('#calculate').click(function(){
+
+		shyftRate = parseFloat($('#shyftRate').val());
+
+
+		investmentUSD = investment/(shyftRate+0.1);
+		$('#investment-in-usd').html(investmentUSD);
+
+		cryptoValueBTC = investmentUSD/cryptoPrice;
+		$('#crypto-value-btc').html(cryptoValueBTC);
+
+		valrValueBTC = cryptoValueBTC-0.0004;
+		$('#valr-value-btc').html(valrValueBTC);
+
+		valrValueZAR = valrValueBTC*valrPriceZAR;
+		$('#valr-value-zar').html(valrValueZAR);
+
+		valueInBankZAR = valrValueZAR-8.50;
+		$('#value-in-bank').html(valueInBankZAR);
+
+		arb = ((valueInBankZAR-investment)/investment)*100;
+		$('arb').html(arb);
+
+
+	});
+
 });
 
 </script>
