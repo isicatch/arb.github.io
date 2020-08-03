@@ -50,8 +50,8 @@
 	</tr>
 
 	<tr>
-		<td>value in bank ZAR:</td>
-		<td id='value-in-bank'></td>
+		<td>arb ZAR:</td>
+		<td id='arb-zar'></td>
 	</tr>
 
 	<tr>
@@ -79,6 +79,7 @@ var valrValueBTC;
 var valrValueZAR;
 var valueInBankZAR;
 var arb;
+var arbZAR;
 
 function getValrAskPrice(){
 jQuery.ajax('https://cors-anywhere.herokuapp.com/https://api.valr.com/v1/public/BTCZAR/marketsummary',{
@@ -129,6 +130,9 @@ $(document).ready(function() {
 
 		valueInBankZAR = valrValueZAR-8.50;
 		$('#value-in-bank').html(valueInBankZAR);
+
+		arbZAR = valueInBankZAR-investment;
+		$('#arb-zar').html(arbZAR);
 
 		arb = ((valueInBankZAR-investment)/investment)*100;
 		$('#arb').html(arb);
