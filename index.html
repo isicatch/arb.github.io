@@ -25,6 +25,10 @@
 <br>
 
 <table>
+	<tr>
+		<td>investment in ZAR:</td>
+		<td id='investment-in-zar'>125000</td>
+	</tr>
 
 	<tr>
 		<td>investment in $:</td>
@@ -51,7 +55,7 @@
 	</tr>
 
 	<tr>
-		<td>arb:</td>
+		<td>arb (%):</td>
 		<td id='arb'></td>
 	</tr>
 
@@ -111,7 +115,6 @@ $(document).ready(function() {
 
 		shyftRate = parseFloat($('#shyftRate').val());
 
-
 		investmentUSD = investment/(shyftRate+0.1);
 		$('#investment-in-usd').html(investmentUSD);
 
@@ -128,7 +131,7 @@ $(document).ready(function() {
 		$('#value-in-bank').html(valueInBankZAR);
 
 		arb = ((valueInBankZAR-investment)/investment)*100;
-		$('arb').html(arb);
+		$('#arb').html(arb);
 
 
 	});
