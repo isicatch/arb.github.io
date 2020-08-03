@@ -128,7 +128,7 @@ $(document).ready(function() {
 		valrValueZAR = valrValueBTC*valrPriceZAR;
 		$('#valr-value-zar').html(valrValueZAR);
 
-		valueInBankZAR = valrValueZAR-8.50;
+		valueInBankZAR = valrValueZAR-(0.002*valrValueZAR);
 		$('#value-in-bank').html(valueInBankZAR);
 
 		arbZAR = valueInBankZAR-investment;
